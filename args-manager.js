@@ -19,36 +19,53 @@ class ArgsManager {
         return string.replace(/"/g, '').replace(/'/g, '');
     }
 
+    /**
+     * look up the argument in the argument list
+     * @param argName {string} the name of the argument
+     * @returns {boolean} true of argument found, false otherwise
+     */
     findArg(argName) {
+        let found = false;
+
         for (let i = 0; i < this.args.length; i++) {
-            if (this.args[i].includes(argName)) {
-                if (this.args[i].includes("=")) {
-                    let arg = this.args[i].replace(argName + "=", "");
-                    return {
-                        key: argName,
-                        value: ArgsManager.removeQuotes(arg)
-                    };
-                } else { //if not returns the next argument
-                    if (i + 1 === this.args.length) {
-                        return undefined;
-                    } else {
-                        return {
-                            key: argName,
-                            value: ArgsManager.removeQuotes(this.args[i + 1])
-                        };
-                    }
+
+            if (this.args[i].includes("=")) { //if --blala=pathto  format
+                found = this.args[i].includes(argName) || found;
+            } else {
+                found = this.args[i].trim() === argName || found;
+            }
+
+        }
+
+        return found;
+    }
+
+    findKey(argName) {
+        for (let i = 0; i < this.args.length; i++) {
+            if (this.args[i].includes("=") && this.args[i].includes(argName)) {
+
+                let arg = this.args[i].replace(argName + "=", "");
+                return ArgsManager.removeQuotes(arg);
+
+            } else if (this.args[i] === argName) {
+
+                if (i + 1 === this.args.length) {
+                    return undefined;
+                } else {
+                    return ArgsManager.removeQuotes(this.args[i + 1]);
                 }
+
             }
         }
     }
 
 
     getConnectionString() {
-        let configArg = this.findArg("--configConnection"),
+        let configArg = this.findKey("--configConnection"),
             connectionString;
 
-        if (configArg && configArg.value) {
-            connectionString = this.config.get(configArg.value);
+        if (configArg) {
+            connectionString = this.config.get(configArg);
         }
         connectionString = this.config.get(CONFIG_CONNECTION);
 
@@ -56,19 +73,19 @@ class ArgsManager {
     }
 
     migrationsFilesPath() {
-        let migrationsArg = this.findArg("--migrationsDir");
+        let migrationsArg = this.findKey("--migrationsDir");
 
-        if (migrationsArg && migrationsArg.value) {
-            return path.resolve(this.processPath, migrationsArg.value);
+        if (migrationsArg) {
+            return path.resolve(this.processPath, migrationsArg);
         }
 
         return path.resolve(this.processPath, MIGRATIONS_DIR);
     }
 
     getCollectionName() {
-        let collectionArg = this.findArg("--collection");
-        if (collectionArg && collectionArg.value) {
-            return collectionArg.value
+        let collectionArg = this.findKey("--collection");
+        if (collectionArg) {
+            return collectionArg
         }
         return COLLECTION_NAME;
     }
