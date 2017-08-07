@@ -1,8 +1,8 @@
 {
   "name": "devhouse-migrate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "migrate.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,11 +10,13 @@
   "license": "MIT",
   "dependencies": {
     "config": "^1.26.1",
-    "mongodb": "^2.2.30",
-    "mongoose": "^4.11.5"
+    "mongodb": "^2.2.30"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/devhousellc/mongodb-migrate.git"
+  },
+  "bin": {
+    "migrate": "migrate.js"
   }
 }

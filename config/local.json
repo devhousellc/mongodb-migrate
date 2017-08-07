@@ -1,6 +1,0 @@
-{
-  "db": {
-    "connectionString": "mongodb://localhost/mongomigrate"
-  },
-  "database": "mongodb://192.168.1.14/mongomigrate"
-}
