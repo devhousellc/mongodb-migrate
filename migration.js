@@ -48,13 +48,22 @@ class Migration {
     }
 
     static getMigrationsFromFolder(argsManager) {
-        let migrationDir = argsManager.migrationsFilesPath();
-        let files = fs.readdirSync(migrationDir);
+        try {
+            let migrationDir = argsManager.migrationsFilesPath(),
+                files = fs.readdirSync(migrationDir);
 
-        return files.map(file => {
-            let fullPath = path.resolve(migrationDir, file);
-            return new Migration(file, fullPath)
-        });
+
+            return files.map(file => {
+                let fullPath = path.resolve(migrationDir, file);
+                return new Migration(file, fullPath)
+            });
+        } catch (err) {
+            if (err.code === 'ENOENT') {
+                throw ('it looks like migration folder could not be found. Please use --migrationsDir option and "help" for mode details')
+            } else {
+                throw (err)
+            }
+        }
     }
 
     isEqual(to) {
@@ -165,6 +174,8 @@ class Migration {
                 result.push(migration);
             }
         }
+
+        return result;
     }
 
     static subtractMigrationsSets(minuend, deduction) {
@@ -185,6 +196,26 @@ class Migration {
         }
 
         return Migration.sortMigrationsArray(result);
+    }
+
+    static createMigration(argsManager) {
+        let name = argsManager.findKey("create"),
+            file = '' + Date.now();
+
+        if (name !== undefined) {
+            file += '-' + name;
+        }
+
+        file += '.js';
+
+        try {
+            let filePath = path.resolve(argsManager.migrationsFilesPath(), file);
+            fs.createReadStream('migration-template.js').pipe(fs.createWriteStream(filePath));
+            console.log(`file ${file} successfully created`)
+        } catch (err) {
+            console.error(`could not create ${file}:`, JSON.stringify(err, null, 2));
+        }
+
     }
 }
 

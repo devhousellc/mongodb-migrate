@@ -85,10 +85,10 @@ class Database {
                 await migration[method]()
             }
             catch (err) {
-                throw ({
-                    message: `during ${method} migration [${migration.name}] an error occurred:
+                throw (
+                    `during ${method} migration [${migration.name}] an error occurred:
                      ${JSON.stringify(err, null, 2)} migration process interrupted`
-                });
+                );
             }
 
             try {
@@ -102,12 +102,12 @@ class Database {
                 }
             }
             catch (err) {
-                throw ({
-                    message: `migration ${this.collectionName} ${method} successfully, but
+                throw (
+                    `migration ${this.collectionName} ${method} successfully, but
                      an error occurred during persisting migration in [${migration.name}] collection:
                      ${JSON.stringify(err, null, 2)}
                      migration process interrupted`
-                });
+                );
             }
         }
     }

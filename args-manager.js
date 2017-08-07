@@ -52,6 +52,9 @@ class ArgsManager {
                 if (i + 1 === this.args.length) {
                     return undefined;
                 } else {
+                    if (this.args[i + 1].includes('--')) {
+                        return undefined;
+                    }
                     return ArgsManager.removeQuotes(this.args[i + 1]);
                 }
 
@@ -66,8 +69,9 @@ class ArgsManager {
 
         if (configArg) {
             connectionString = this.config.get(configArg);
+        } else {
+            connectionString = this.config.get(CONFIG_CONNECTION);
         }
-        connectionString = this.config.get(CONFIG_CONNECTION);
 
         return connectionString;
     }
