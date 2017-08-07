@@ -51,7 +51,7 @@ class Database {
         let db = await this.getConnection();
 
         return db.collection(this.collectionName)
-            .update({
+            .updateMany({
                 name: migration.name
             }, {
                 name: migration.name,
@@ -65,7 +65,7 @@ class Database {
         let db = await this.getConnection();
 
         return db.collection(this.collectionName)
-            .remove({
+            .deleteMany({
                 name: migration.name
             })
 

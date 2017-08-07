@@ -4,9 +4,9 @@ const path = require('path'),
     ArgsManager = require('./args-manager'),
     Database = require('./database'),
     Migration = require('./migration'),
-    readline = require('readline');
+    readLine = require('readline');
 
-const rl = readline.createInterface({
+const rl = readLine.createInterface({
     input: process.stdin,
     output: process.stdout
 });
