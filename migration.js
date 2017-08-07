@@ -199,8 +199,9 @@ class Migration {
     }
 
     static createMigration(argsManager) {
-        let name = argsManager.findKey("create"),
-            file = '' + Date.now();
+        let name = argsManager.findKey("create", ""),
+            file = '' + Date.now(),
+            templatePath = path.resolve(__dirname, './migration-template.js');
 
         if (name !== undefined) {
             file += '-' + name;
@@ -210,7 +211,7 @@ class Migration {
 
         try {
             let filePath = path.resolve(argsManager.migrationsFilesPath(), file);
-            fs.createReadStream('./migration-template.js').pipe(fs.createWriteStream(filePath));
+            fs.createReadStream(templatePath).pipe(fs.createWriteStream(filePath));
             console.log(`file ${file} successfully created`)
         } catch (err) {
             console.error(`could not create ${file}:`, JSON.stringify(err, null, 2));
