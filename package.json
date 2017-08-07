@@ -1,5 +1,5 @@
 {
-  "name": "mongo-migrator",
+  "name": "devhouse-migrate",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,5 +12,9 @@
     "config": "^1.26.1",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devhousellc/mongodb-migrate.git"
   }
 }
