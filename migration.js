@@ -210,7 +210,7 @@ class Migration {
 
         try {
             let filePath = path.resolve(argsManager.migrationsFilesPath(), file);
-            fs.createReadStream('migration-template.js').pipe(fs.createWriteStream(filePath));
+            fs.createReadStream('./migration-template.js').pipe(fs.createWriteStream(filePath));
             console.log(`file ${file} successfully created`)
         } catch (err) {
             console.error(`could not create ${file}:`, JSON.stringify(err, null, 2));
