@@ -8,6 +8,23 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function copyFile(source, target) {
+    return new Promise(function (resolve, reject) {
+        let rd = fs.createReadStream(source);
+        rd.on('error', rejectCleanup);
+        let wr = fs.createWriteStream(target);
+        wr.on('error', rejectCleanup);
+
+        function rejectCleanup(err) {
+            rd.destroy();
+            wr.end();
+            reject(err);
+        }
+
+        wr.on('finish', resolve);
+        rd.pipe(wr);
+    });
+}
 
 class Migration {
     constructor(name, path, applied) {
@@ -209,10 +226,17 @@ class Migration {
 
         file += '.js';
 
+        if (!fs.existsSync(argsManager.migrationsFilesPath())) {
+            fs.mkdirSync(argsManager.migrationsFilesPath());
+        }
+
         try {
             let filePath = path.resolve(argsManager.migrationsFilesPath(), file);
-            fs.createReadStream(templatePath).pipe(fs.createWriteStream(filePath));
-            console.log(`file ${file} successfully created`)
+            return copyFile(templatePath, filePath)
+                .then(result => {
+                    console.log(`file ${file} successfully created`);
+                    return result;
+                })
         } catch (err) {
             console.error(`could not create ${file}:`, JSON.stringify(err, null, 2));
         }

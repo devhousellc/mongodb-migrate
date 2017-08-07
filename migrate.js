@@ -145,8 +145,8 @@ else if (argsManager.findArg("down")) {
 
 } else if (argsManager.findArg("create")) {
 
-    Migration.createMigration(argsManager);
-    process.exit(0);
+    Migration.createMigration(argsManager)
+        .then(() => process.exit(0));
 
 } else if (argsManager.findArg("pending")) {
 
