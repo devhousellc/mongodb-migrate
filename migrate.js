@@ -4,12 +4,7 @@ const path = require('path'),
     ArgsManager = require('./args-manager'),
     Database = require('./database'),
     Migration = require('./migration'),
-    readLine = require('readline');
-
-const rl = readLine.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+    {askQuestion} = require('./utils');
 
 
 const CONFIG_DIR = "./config";
@@ -21,24 +16,8 @@ let config = require('config');
 let argsManager = new ArgsManager(process.argv, config, process.cwd());
 
 function askAboutConnection() {
-    return new Promise((resolve, reject) => {
-        if (argsManager.findArg('--silence')) {
-            resolve();
-            return;
-        }
-
-        rl.question(`with current working environment will be used \x1b[32m${argsManager.getConnectionString()}\x1b[0m are you agree with that? [y/n]: `, (answer) => {
-
-            if (answer === 'y' || answer === 'yes') {
-                resolve()
-            } else {
-                reject('declined by user')
-            }
-
-            rl.close();
-        })
-    });
-
+    return askQuestion(`with current working environment will be used \x1b[32m${argsManager.getConnectionString()}\x1b[0m are you agree with that?`,
+        argsManager);
 }
 
 function showRaggedMigrations(dbMigrations, dirMigrations) {
@@ -187,7 +166,7 @@ else if (argsManager.findArg("down")) {
         --collection='db-migrations' \t\t\t the name of the collection to persist in the database. By default 'migrations'
         --configConnection='database.connectionString' \t the name of the property of the 'config' module to be used as connection string. By default 'db.connectionString'
         --force \t\t\t\t\t ignore migration that has no related files in case of down way
-        --silence \t\t\t\t\t do not ask at all
+        --silence \t\t\t\t\t do not ask at all. Be really carefull with that key! Use it on your own risk.
     
     `);
     process.exit(0);

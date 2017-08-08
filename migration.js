@@ -28,6 +28,9 @@ function copyFile(source, target) {
 
 class Migration {
     constructor(name, path, applied) {
+        if (!name || (!path && !applied)) {
+            throw ('PARSERROR')
+        }
         this.name = name;
         this.path = path;
         this.applied = applied;
