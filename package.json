@@ -1,6 +1,6 @@
 {
   "name": "devhouse-migrate",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Provides simple CLI for persistent mongodb migrations",
   "main": "migrate.js",
   "scripts": {

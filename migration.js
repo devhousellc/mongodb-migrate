@@ -41,18 +41,20 @@ class Migration {
         let randomColour = getRandomIntInclusive(32, 36);
         console.time(`${this.name}`);
         console.log(`\x1b[${randomColour}m up migration ${this.name} started\x1b[0m`);
-        await this.file.up();
+        let result = await this.file.up();
         console.timeEnd(`${this.name}`);
         console.log(`\x1b[${randomColour}m up migration ${this.name} finished\x1b[0m`);
+        return result;
     }
 
     async down() {
         let randomColour = getRandomIntInclusive(32, 36);
         console.time(`${this.name}`);
         console.log(`\x1b[${randomColour}m down migration ${this.name} started\x1b[0m`);
-        await this.file.up();
+        let result = await this.file.down();
         console.timeEnd(`${this.name}`);
         console.log(`\x1b[${randomColour}m down migration ${this.name} finished\x1b[0m`);
+        return result;
     }
 
     get isApplied() {
