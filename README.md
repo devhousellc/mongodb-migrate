@@ -143,6 +143,22 @@ This will generate file in you `migrations` (or `--migrationsDir`) folder file
 file 1502115579733-MyNewMigration.js successfully created
 ```
 ----
+When something wroing with your `--collection`, you will be asked to fix it. Just reply `yes` and `no` to question:
+
+```
+it looks like you migrations collection is damaged. Would you like to fix it? [y/n]: y
+is that migration: 1484640085344-addCurrentOrderProcessIdToUsers.js already applied? [y/n]: y
+is that migration: 1485165880117-UpdatePropertyBankInfoSchema.js already applied? [y/n]: n
+is that migration: 1497443127517-UpdateUsersBirthdays.js already applied? [y/n]: y
+is that migration: 1497531877195-SetFromAmbitaMark.js already applied? [y/n]: n
+is that migration: 1499927755913-SetFromAmbitaForApartmentOwnersAndUsers.js already applied? [y/n]: y
+is that migration: 1502110122262-newmigra.js already applied? [y/n]: y
+is that migration: 1502115579733-MyNewMigration.js already applied? [y/n]: n
+
+```
+
+----
+
 For futher details see 
 
 ```
