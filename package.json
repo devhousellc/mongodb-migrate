@@ -10,7 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "config": "^1.26.1",
-    "mongodb": "^2.2.30"
+    "mongodb": "^2.2.30",
+    "devhouse-fixtures": "^1.0.0"
   },
   "repository": {
     "type": "git",
